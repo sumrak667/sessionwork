@@ -1,0 +1,58 @@
+package org.example.session;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
+    
+    @GetMapping
+    public String getAllUsers(Model model) {
+        List<UserEntity> users = userRepository.findAll();
+        model.addAttribute("users", users);
+        return "users";
+    }
+    
+    @GetMapping("/new")
+    public String createUserForm(Model model) {
+        model.addAttribute("user", new UserEntity());
+        return "create_user";
+    }
+    
+    @PostMapping
+    public String saveUser(@ModelAttribute("user") UserEntity userEntity) {
+        userRepository.save(userEntity);
+        return "redirect:/users";
+    }
+    
+    @GetMapping("/edit/{id}")
+    public String editUserForm(@PathVariable Long id, Model model) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid User Id:" + id));
+        model.addAttribute("user", user);
+        return "edit_user";
+    }
+    
+    @PostMapping("/{id}")
+    public String updateUser(@PathVariable Long id, @ModelAttribute("user") UserEntity userDetails) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid User Id:" + id));
+        user.setUsername(userDetails.getUsername());
+        user.setPassword(userDetails.getPassword());
+        userRepository.save(user);
+        return "redirect:/users";
+    }
+    
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
+        return "redirect:/users";
+    }
+}
