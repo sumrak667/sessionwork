@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Users</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+  <style>
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 20px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    td {
+      background-color: #f9f9f9;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f1f1f1;
+    }
+
+    a {
+      display: inline-block;
+      margin: 5px;
+      padding: 8px 12px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    a:hover {
+      background-color: #45a049;
+    }
+
+    .manage-users-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 200px;
+    }
+
+    .manage-users-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<h1>Users List</h1>
+<a th:href="@{/users/new}" class="manage-users-btn">Create New User</a>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}">1</td>
+    <td th:text="${user.username}">John</td>
+    <td>
+      <a th:href="@{/users/edit/{id}(id=${user.id})}">Edit</a>
+      <a th:href="@{/users/delete/{id}(id=${user.id})}">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
