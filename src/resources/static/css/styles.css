@@ -63,3 +63,14 @@ a {
 a:hover {
     text-decoration: underline;
 }
+a {
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 18px;
+}
+a:hover {
+    text-decoration: underline;
+}
